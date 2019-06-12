@@ -1,0 +1,29 @@
+{
+  "name": "@rynpsc/focus-trap",
+  "version": "1.0.0",
+  "description": "Basic focus trap",
+  "homepage": "https://github.com/rynpsc/focus-trap#readme",
+  "bugs": "https://github.com/rynpsc/focus-trap/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rynpsc/focus-trap"
+  },
+  "license": "MIT",
+  "author": "Ryan Pascoe",
+  "files": [
+		"src",
+    "dist"
+  ],
+  "main": "dist/focus-trap.js",
+  "unpkg": "dist/focus-trap.umd.js",
+  "module": "dist/focus-trap.esm.js",
+  "scripts": {
+		"build": "rimraf dist && microbundle build --entry src/index.js",
+		"dev": "microbundle watch --entry src/index.js",
+    "prepare": "npm run -s build"
+  },
+  "devDependencies": {
+    "microbundle": "^0.11.0",
+    "rimraf": "^2.6.3"
+  }
+}
