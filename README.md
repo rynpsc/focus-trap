@@ -2,24 +2,10 @@
 
 Simple focus trap for trapping focus within a given element.
 
-## Usage
+## Install
 
-`npm install @rynpsc/focus-trap`
-
-```html
-<div id="trap">
-  <button>Escape</button>
-</div>
 ```
-
-```js
-import { focusTrap } from '@rynpsc/focus-trap';
-
-const trap = focusTrap(document.getElementById('trap'));
-
-trap.activate();
-
-trap.deactivate();
+$ npm install @rynpsc/focus-trap
 ```
 
 ## API
@@ -49,6 +35,36 @@ Deactivate the trap and set focus to `element`;
 #### element
 
 Type `HTMLElement`
+
+## Example
+
+```html
+<button id="activate">Activate</button>
+
+<div id="trap">
+  <a href="#">Link</a>
+  <label for="name">Name</label>
+  <input type="text" id="name">
+
+  <button id="deactivate">Deactivate</button>
+</div>
+```
+
+```js
+import { focusTrap } from '@rynpsc/focus-trap';
+
+const trap = focusTrap(document.getElementById('trap'));
+
+document.getElementById('activate').addEventListener('click', function() {
+  // Activate trap and move focus to name input.
+  trap.activate(document.getElementById('name'));
+});
+
+document.getElementById('deactivate').addEventListener('click', function() {
+  // Remove trap and refocus on the activate button.
+  trap.deactivate(document.getElementById('activate'));
+});
+```
 
 ## Browser support
 
