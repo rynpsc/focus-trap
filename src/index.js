@@ -12,7 +12,7 @@ const selectors = [
 ];
 
 /**
- *	Focus trap constructor.
+ * Focus trap constructor.
  *
  * @param {HTMLElement} element
  * @returns {Object}
@@ -105,7 +105,7 @@ export function focusTrap(element) {
 }
 
 /**
- *	Checks if an element appears in the tab order.
+ * Checks if an element appears in the tab order.
  *
  * @param {HTMLElement} element - The element to check.
  * @returns {boolean} Whether the element is tabbable.
@@ -153,7 +153,7 @@ function focus(element) {
 }
 
 /**
- *	Checks if an element is a radio button.
+ * Checks if an element is a radio button.
  *
  * @param {HTMLElement} element
  * @returns {boolean}
@@ -197,7 +197,7 @@ function getFocusableElements(element) {
 }
 
 /**
- *	Focus the focusable child element within a given element.
+ * Focus the focusable child element within a given element.
  *
  * @param {HTMLElement} element
  */
