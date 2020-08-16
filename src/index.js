@@ -108,6 +108,37 @@ export function focusTrap(element) {
 }
 
 /**
+ * Focus an element.
+ *
+ * @param {HTMLElement} element The element to focus.
+ * @returns {boolean} Indicates if the element was focused.
+ */
+function focus(element) {
+	if (!element || !element instanceof HTMLElement || !element.focus) {
+		return false;
+	}
+
+	element.focus();
+
+	return (document.activeElement == element);
+}
+
+/**
+ * Focus the focusable child element within a given element.
+ *
+ * @param {HTMLElement} element
+ */
+function focusFirstElement(element) {
+	const nodes = getFocusableElements(element);
+
+	if (!nodes.length) {
+		return false;
+	}
+
+	return focus(nodes[0]);
+}
+
+/**
  * Checks if an element appears in the tab order.
  *
  * @param {HTMLElement} element - The element to check.
@@ -140,19 +171,14 @@ function isTabbable(element) {
 }
 
 /**
- * Focus an element.
+ * Gets the focusable child elements within a given element.
  *
- * @param {HTMLElement} element The element to focus.
- * @returns {boolean} Indicates if the element was focused.
+ * @param {HTMLElement} element
+ * @returns {Array}
  */
-function focus(element) {
-	if (!element || !element instanceof HTMLElement || !element.focus) {
-		return false;
-	}
-
-	element.focus();
-
-	return (document.activeElement == element);
+function getFocusableElements(element) {
+	return Array.from(element.querySelectorAll(selectors))
+		.filter(elem => isTabbable(elem));
 }
 
 /**
@@ -186,30 +212,4 @@ function isFocusableRadio(element) {
 	}
 
 	return element.checked;
-}
-
-/**
- * Gets the focusable child elements within a given element.
- *
- * @param {HTMLElement} element
- * @returns {Array}
- */
-function getFocusableElements(element) {
-	return Array.from(element.querySelectorAll(selectors))
-		.filter(elem => isTabbable(elem));
-}
-
-/**
- * Focus the focusable child element within a given element.
- *
- * @param {HTMLElement} element
- */
-function focusFirstElement(element) {
-	const nodes = getFocusableElements(element);
-
-	if (!nodes.length) {
-		return false;
-	}
-
-	return focus(nodes[0]);
 }
