@@ -20,8 +20,10 @@ const selectors = [
  * @param {HTMLElement} element
  * @returns {Object}
  */
-export function focusTrap(element) {
+export function focusTrap(element, options = {}) {
+	let initialFocus;
 	let trapActivated = false;
+	let { restoreFocus = true } = options;
 
 	/**
 	 * Activate trap and focus the provided element.
@@ -32,6 +34,8 @@ export function focusTrap(element) {
 		if (trapActivated) {
 			return;
 		}
+
+		initialFocus = document.activeElement;
 
 		focus(focusTarget) || focusFirstElement(element) || focus(element);
 
@@ -54,7 +58,11 @@ export function focusTrap(element) {
 		document.removeEventListener('focusin', onFocusIn, true);
 		document.removeEventListener('keydown', onKeydown, true);
 
-		focus(focusTarget);
+		let target = focusTarget || (restoreFocus ? initialFocus : false);
+
+		if (target) {
+			focus(target);
+		}
 
 		trapActivated = false;
 	}
