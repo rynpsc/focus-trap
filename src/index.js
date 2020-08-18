@@ -85,9 +85,11 @@ export function focusTrap(element, options = {}) {
 	 * @param {KeyboardEvent} event
 	 */
 	function onKeydown(event) {
-		if (event.key === 'Tab') {
-			trapTab(element, event);
+		if (event.key !== 'Tab' || event.altKey || event.ctrlKey || event.metaKey) {
+			return;
 		}
+
+		trapTab(element, event);
 
 		/**
 		 * @param {HTMLElement} element
