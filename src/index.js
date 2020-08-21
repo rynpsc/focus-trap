@@ -149,6 +149,17 @@ function focusFirstElement(element) {
 }
 
 /**
+ * Gets the focusable child elements within a given element.
+ *
+ * @param {HTMLElement} element
+ * @returns {Array}
+ */
+function getFocusableElements(element) {
+	return Array.from(element.querySelectorAll(selectors))
+		.filter(elem => isTabbable(elem));
+}
+
+/**
  * Checks if an element appears in the tab order.
  *
  * @param {HTMLElement} element - The element to check.
@@ -178,17 +189,6 @@ function isTabbable(element) {
 		!element.disabled &&
 		!(element.offsetParent === null || window.getComputedStyle(element).visibility === 'hidden')
 	);
-}
-
-/**
- * Gets the focusable child elements within a given element.
- *
- * @param {HTMLElement} element
- * @returns {Array}
- */
-function getFocusableElements(element) {
-	return Array.from(element.querySelectorAll(selectors))
-		.filter(elem => isTabbable(elem));
 }
 
 /**
