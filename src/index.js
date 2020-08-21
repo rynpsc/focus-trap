@@ -20,7 +20,7 @@ const selectors = [
  * @param {HTMLElement} element
  * @returns {Object}
  */
-export function focusTrap(element, options = {}) {
+export function FocusTrap(element, options = {}) {
 	let initialFocus;
 	let trapActivated = false;
 	let { restoreFocus = true } = options;
