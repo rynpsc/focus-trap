@@ -154,7 +154,7 @@ function focusFirstElement(element) {
  * @param {HTMLElement} element
  * @returns {Array}
  */
-function getFocusableElements(element) {
+export function getFocusableElements(element) {
 	return Array.from(element.querySelectorAll(selectors))
 		.filter(elem => isTabbable(elem));
 }

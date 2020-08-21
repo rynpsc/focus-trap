@@ -36,6 +36,16 @@ Deactivate the trap and set focus to `element`;
 
 Type `HTMLElement`
 
+### getFocusableElements(element)
+
+Gets the focusable child elements within a given element.
+
+```js
+import { getFocusableElements } from '@rynpsc/focus-trap';
+
+let elements = getFocusableElements(<HTMLElement>);
+```
+
 ## Example
 
 ```html
