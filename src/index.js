@@ -22,6 +22,7 @@ const selectors = [
  */
 export function FocusTrap(element, options = {}) {
 	let initialFocus;
+	let currentElement;
 	let trapActivated = false;
 	let { restoreFocus = true } = options;
 
@@ -30,17 +31,21 @@ export function FocusTrap(element, options = {}) {
 	 *
 	 * @param {HTMLElement} focusTarget - Element to focus upon activation.
 	 */
-	function activate(focusTarget) {
+	function activate(focusTarget, scroll = false) {
 		if (trapActivated) {
 			return;
 		}
 
 		initialFocus = document.activeElement;
 
-		focus(focusTarget) || focusFirstElement(element) || focus(element);
+		if (focusTarget instanceof HTMLElement) {
+			focus(focusTarget, scroll);
+		} else {
+			focusFirstElement(element, scroll);
+		}
 
-		document.addEventListener('focusin', onFocusIn, true);
-		document.addEventListener('keydown', onKeydown, true);
+		document.addEventListener('focusin', onFocusIn, false);
+		document.addEventListener('keydown', onKeydown, false);
 
 		trapActivated = true;
 	}
@@ -49,35 +54,44 @@ export function FocusTrap(element, options = {}) {
 	 * Deactivate the trap and optionally redirect focus.
 	 *
 	 * @param {HTMLElement} element - Element to focus upon deactivation.
+	 * @param {Object} options
 	 */
-	function deactivate(focusTarget) {
+	function deactivate(focusTarget = undefined, scroll = false) {
 		if (!trapActivated) {
 			return;
 		}
 
-		document.removeEventListener('focusin', onFocusIn, true);
-		document.removeEventListener('keydown', onKeydown, true);
+		document.removeEventListener('focusin', onFocusIn, false);
+		document.removeEventListener('keydown', onKeydown, false);
 
 		let target = focusTarget || (restoreFocus ? initialFocus : false);
 
 		if (target) {
-			focus(target);
+			currentElement = focus(target, scroll);
 		}
 
 		trapActivated = false;
+		currentElement = undefined;
 	}
 
 	/**
 	 * @param {FocusEvent} event
 	 */
 	function onFocusIn(event) {
-		const focusLost = !element.contains(document.activeElement);
+		let focusLost = !element.contains(event.target);
+
+		if (!focusLost) {
+			event.stopPropagation();
+			currentElement = event.target;
+			return;
+		}
 
 		event.preventDefault();
-		event.stopImmediatePropagation();
 
-		if (focusLost && trapActivated) {
-			focusFirstElement(element);
+		if (currentElement) {
+			focus(currentElement, true);
+		} else {
+			focusFirstElement(element, true);
 		}
 	}
 
@@ -96,19 +110,17 @@ export function FocusTrap(element, options = {}) {
 		 * @param {KeyboardEvent} event
 		 */
 		function trapTab(element, event) {
-			const activeElement = document.activeElement;
+			let activeElement = document.activeElement;
 
-			const elements = getFocusableElements(element);
-			const firstTabStop = elements[0];
-			const lastTabStop = elements[elements.length - 1];
+			let elements = getFocusableElements(element);
+			let firstTabStop = elements[0];
+			let lastTabStop = elements[elements.length - 1];
 
 			if (event.shiftKey && (activeElement == firstTabStop)) {
-				focus(lastTabStop);
+				focus(lastTabStop, true);
 				event.preventDefault();
-			}
-
-			if (!event.shiftKey && (activeElement == lastTabStop)) {
-				focus(firstTabStop);
+			} else if (!event.shiftKey && (activeElement == lastTabStop)) {
+				focus(firstTabStop, true);
 				event.preventDefault();
 			}
 		}
@@ -121,42 +133,41 @@ export function FocusTrap(element, options = {}) {
  * Focus an element.
  *
  * @param {HTMLElement} element The element to focus.
- * @returns {boolean} Indicates if the element was focused.
+ * @param {boolean} scroll Whether to scroll element into view.
  */
-function focus(element) {
-	if (!element || !element instanceof HTMLElement || !element.focus) {
+function focus(element, scroll = false) {
+	if (!element || !element instanceof HTMLElement) {
 		return false;
 	}
 
-	element.focus();
-
-	return (document.activeElement == element);
+	element.focus({ preventScroll: !scroll });
 }
 
 /**
  * Focus the focusable child element within a given element.
  *
  * @param {HTMLElement} element
+ * @param {boolean} scroll Whether to scroll element into view.
  */
-function focusFirstElement(element) {
+function focusFirstElement(element, scroll = false) {
 	const nodes = getFocusableElements(element);
 
 	if (!nodes.length) {
 		return false;
 	}
 
-	return focus(nodes[0]);
+	focus(nodes[0], scroll);
 }
 
 /**
  * Gets the focusable child elements within a given element.
  *
- * @param {HTMLElement} element
- * @returns {Array}
+ * @param {HTMLElement} element - Element to search in.
+ * @returns {Array} The focusable elements.
  */
 export function getFocusableElements(element) {
 	return Array.from(element.querySelectorAll(selectors))
-		.filter(elem => isTabbable(elem));
+		.filter(element => isTabbable(element));
 }
 
 /**
