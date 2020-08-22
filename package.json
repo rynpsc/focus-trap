@@ -10,20 +10,19 @@
   },
   "license": "MIT",
   "author": "Ryan Pascoe",
+  "main": "dist/main.js",
+  "module": "dist/module.js",
   "files": [
     "src",
     "dist"
   ],
-  "main": "dist/focus-trap.js",
-  "unpkg": "dist/focus-trap.umd.js",
-  "module": "dist/focus-trap.esm.js",
   "scripts": {
-    "build": "rimraf dist && microbundle build --entry src/index.js",
-    "dev": "microbundle watch --entry src/index.js",
-    "prepare": "npm run -s build"
+    "build": "rimraf dist && rollup --config",
+    "prepare": "npm run -s build",
+    "watch": "rollup --config --watch"
   },
   "devDependencies": {
-    "microbundle": "^0.11.0",
-    "rimraf": "^2.6.3"
+    "rimraf": "^2.6.3",
+    "rollup": "^2.26.5"
   }
 }
