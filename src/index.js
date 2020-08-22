@@ -23,7 +23,7 @@ const selectors = [
 export function FocusTrap(element, options = {}) {
 	let initialFocus;
 	let currentElement;
-	let trapActivated = false;
+	let activated = false;
 	let { restoreFocus = true } = options;
 
 	/**
@@ -32,7 +32,7 @@ export function FocusTrap(element, options = {}) {
 	 * @param {HTMLElement} focusTarget - Element to focus upon activation.
 	 */
 	function activate(focusTarget, scroll = false) {
-		if (trapActivated) {
+		if (activated) {
 			return;
 		}
 
@@ -47,7 +47,7 @@ export function FocusTrap(element, options = {}) {
 		document.addEventListener('focusin', onFocusIn, false);
 		document.addEventListener('keydown', onKeydown, false);
 
-		trapActivated = true;
+		activated = true;
 	}
 
 	/**
@@ -57,7 +57,7 @@ export function FocusTrap(element, options = {}) {
 	 * @param {Object} options
 	 */
 	function deactivate(focusTarget = undefined, scroll = false) {
-		if (!trapActivated) {
+		if (!activated) {
 			return;
 		}
 
@@ -70,7 +70,7 @@ export function FocusTrap(element, options = {}) {
 			currentElement = focus(target, scroll);
 		}
 
-		trapActivated = false;
+		activated = false;
 		currentElement = undefined;
 	}
 
