@@ -10,33 +10,51 @@ $ npm install @rynpsc/focus-trap
 
 ## API
 
-### focusTrap(element)
+### `focusTrap(element: HTMLElement, options: Object)`
 
 Creates a focusTrap instance.
 
-#### element
+```js
+import { FocusTrap } from '@rynpsc/focus-trap';
 
-Type: `HTMLElement`
+let trap = FocusTrap(<HTMLElement>);
+```
 
-The element to trap focus within.
+#### Options
 
-### .activate(element)
+- `autoFocus`: Restore focus to the element that had focus when calling `activate`.
 
-Active the trap and set focus to `element`;
+#### `.activate(element: HTMLElement, scroll: boolean)`
 
-#### element
+Active the trap and set focus to `element`. If `element` is undefined the first focuable element will be focused.
 
-Type `HTMLElement`
+```js
+trap.activate();
+```
 
-### .deactivate(element)
+Pass `true` as the second parameter to scroll element into view, by default this is set to false.
+
+```js
+trap.activate(undefined, true);
+```
+
+#### `.deactivate(element, element: HTMLElement, scroll: boolean)`
 
 Deactivate the trap and set focus to `element`;
 
-#### element
+```js
+trap.deactive();
+```
 
-Type `HTMLElement`
+If the `restoreFocus` option is set to true focus will be restored to the element that had focus when calling `activate`. An alternative element can be focused by passing in the element to focus as the first parameter.
 
-### getFocusableElements(element)
+Pass `true` as the second parameter to scroll element into view, by default this is set to false.
+
+```js
+trap.deactivate(document.getElementById('my-id'), true);
+```
+
+### getFocusableElements(element: HTMLElement)
 
 Gets the focusable child elements within a given element.
 
@@ -66,13 +84,11 @@ import { focusTrap } from '@rynpsc/focus-trap';
 const trap = focusTrap(document.getElementById('trap'));
 
 document.getElementById('activate').addEventListener('click', function() {
-  // Activate trap and move focus to name input.
-  trap.activate(document.getElementById('name'));
+  trap.activate();
 });
 
 document.getElementById('deactivate').addEventListener('click', function() {
-  // Remove trap and refocus on the activate button.
-  trap.deactivate(document.getElementById('activate'));
+  trap.deactivate();
 });
 ```
 
