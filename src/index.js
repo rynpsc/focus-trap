@@ -126,7 +126,11 @@ export function FocusTrap(element, options = {}) {
 		}
 	}
 
-	return { activate, deactivate };
+	return {
+		activated,
+		activate,
+		deactivate,
+	};
 }
 
 /**

@@ -54,6 +54,10 @@ Pass `true` as the second parameter to scroll element into view, by default this
 trap.deactivate(document.getElementById('my-id'), true);
 ```
 
+#### `activated`
+
+Returns a `boolean` indicating if the trap is activated,
+
 ### getFocusableElements(element: HTMLElement)
 
 Gets the focusable child elements within a given element.
