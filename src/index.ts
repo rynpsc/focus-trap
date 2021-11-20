@@ -18,7 +18,7 @@ type FocusTarget = HTMLElement | null | undefined;
 
 interface HTMLRadioInput extends HTMLInputElement {}
 
-interface FocusTrap {
+export interface FocusTrap {
 	activated: boolean;
 	activate(element?: FocusTarget, scroll?: boolean): void;
 	deactivate(element?: FocusTarget, scroll?: boolean): void;
