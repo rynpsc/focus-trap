@@ -20,8 +20,8 @@ interface HTMLRadioInput extends HTMLInputElement {}
 
 interface FocusTrap {
 	activated: boolean;
-	activate: (element?: FocusTarget, scroll?: boolean) => void;
-	deactivate: (element?: FocusTarget, scroll?: boolean) => void;
+	activate(element?: FocusTarget, scroll?: boolean): void;
+	deactivate(element?: FocusTarget, scroll?: boolean): void;
 }
 
 export function FocusTrap(element: HTMLElement): FocusTrap {
