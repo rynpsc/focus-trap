@@ -1,6 +1,12 @@
 # Changelog
 
-## 2.0.0 - 2020-07-22
+## 3.0.0
+
+- Removed `restoreFocus` option
+- Added ability to pass `null` to `activate` and `deactivate` methods
+- Converted to Typescript
+
+## 2.0.0
 
 ### Added
 
@@ -20,6 +26,6 @@
 
 - Fixed conflict when tabbing with a meta key pressed.
 
-## 1.0.0 - 2019-06-12
+## 1.0.0
 
 Initial release.
