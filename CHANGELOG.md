@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.0.1
+
+- Fixed activate and deactivate type declaration
+
 ## 3.0.0
 
 - Removed `restoreFocus` option

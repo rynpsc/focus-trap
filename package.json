@@ -1,7 +1,7 @@
 {
 	"name": "@rynpsc/focus-trap",
 	"description": "Basic focus trap",
-	"version": "3.0.0",
+	"version": "3.0.1",
 	"main": "dist/commonjs/focus-trap.js",
 	"module": "dist/module/focus-trap.js",
 	"unpkg": "dist/umd/focus-trap.js",
